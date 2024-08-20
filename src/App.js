@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './App.css'; // Import the CSS file
+import './App.css'; 
 
 const CountdownTimer = () => {
     const [time, setTime] = useState({
@@ -10,24 +10,25 @@ const CountdownTimer = () => {
     });
 
     useEffect(() => {
-        // Calculate the countdown time in seconds
-        const countdownTime = (61 * 24 * 60 * 60) + (21 * 60 * 60) + (58 * 60) + 30;
-        let timer = countdownTime;
+        const targetDate = new Date('2024-10-21T07:59:59').getTime();
 
-        const interval = setInterval(() => {
-            const days = Math.floor(timer / (24 * 60 * 60));
-            const hours = Math.floor((timer % (24 * 60 * 60)) / (60 * 60));
-            const minutes = Math.floor((timer % (60 * 60)) / 60);
-            const seconds = Math.floor(timer % 60);
+        const calculateTimeLeft = () => {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
 
-            setTime({
-                days: String(days).padStart(2, '0'),
-                hours: String(hours).padStart(2, '0'),
-                minutes: String(minutes).padStart(2, '0'),
-                seconds: String(seconds).padStart(2, '0')
-            });
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-            if (--timer < 0) {
+                setTime({
+                    days: String(days).padStart(2, '0'),
+                    hours: String(hours).padStart(2, '0'),
+                    minutes: String(minutes).padStart(2, '0'),
+                    seconds: String(seconds).padStart(2, '0')
+                });
+            } else {
                 clearInterval(interval);
                 setTime({
                     days: '00',
@@ -36,7 +37,9 @@ const CountdownTimer = () => {
                     seconds: '00'
                 });
             }
-        }, 1000);
+        };
+
+        const interval = setInterval(calculateTimeLeft, 1000);
 
         return () => clearInterval(interval);
     }, []);
