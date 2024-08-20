@@ -11,7 +11,7 @@ const CountdownTimer = () => {
 
     useEffect(() => {
         // Calculate the countdown time in seconds
-        const countdownTime = (61 * 24 * 60 * 60) + (21 * 60 * 60) + (7 * 60) + 59;
+        const countdownTime = (61 * 24 * 60 * 60) + (21 * 60 * 60) + (2 * 60) + 5;
         let timer = countdownTime;
 
         const interval = setInterval(() => {
